@@ -104,6 +104,37 @@ function updateCart() {
             let pizzaItem = pizzaJson.find((item) => item.id == cart[i].id);
             let carItem = c('.models .cart--item').cloneNode(true);
 
+            let pizzaSizeName;
+            switch(cart[i].size) {
+                case 0:
+                pizzaSizeName = 'P';
+                break;
+                case 1:
+                    pizzaSizeName = 'M';
+                break;
+                case 2:
+                    pizzaSizeName = 'G';
+                break;
+
+            }
+            let pizzaName = `${pizzaItem.name} ${pizzaSizeName}`;
+           
+            carItem.querySelector('img').src = pizzaItem.img;
+            carItem.querySelector('.cart--item-nome').innerHTML = pizzaName;
+            carItem.querySelector('.cart--item--qt').innerHTML = cart[i].qt;
+            carItem.querySelector('.cart--item-qtmenos').addEventListener('click', () => {
+               if(cart[i].qt > 1) {
+                cart[i].qt--;
+               } else {
+                cart.splice(i, 1);
+               }
+                updateCart();
+            });
+            carItem.querySelector('.cart--item-qtmais').addEventListener('click', () => {
+                cart[i].qt++;
+                updateCart();
+            });
+
             c('.cart').append(carItem);
         }
     } else {
